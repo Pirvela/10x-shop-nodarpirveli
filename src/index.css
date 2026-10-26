@@ -1,1 +1,24 @@
 @import "tailwindcss";
+
+/* 10X Shop დიზაინ-ტოკენები (neo-brutalism).
+   თითო ცვლადი ავტომატურად utility კლასად იქცევა:
+   --color-sun → bg-sun, text-sun, border-sun ...
+   --shadow-brutal → shadow-brutal */
+@theme {
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+
+  --color-ink: #111111; /* ჩარჩოები, ტექსტი, ჩრდილი */
+  --color-sun: #ffe45e; /* გვერდის ფონი */
+  --color-punch: #ff4d6d; /* მთავარი ღილაკები */
+  --color-punch-dark: #e63956; /* ღილაკის hover */
+
+  /* პასტელური ფილები სურათებისთვის */
+  --color-sky: #a5f0fc;
+  --color-lime: #d9f99d;
+  --color-blush: #f9d0e5;
+  --color-periwinkle: #c7d2fe;
+
+  /* მყარი ჩრდილი: ბუნდოვანება 0, ოფსეტი მარჯვნივ-ქვემოთ */
+  --shadow-brutal: 6px 6px 0 0 var(--color-ink);
+  --shadow-brutal-sm: 3px 3px 0 0 var(--color-ink);
+}
