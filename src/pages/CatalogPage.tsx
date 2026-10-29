@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getProducts } from "../api/products";
+import { useCart } from "../context/cartContext";
 import ProductGrid from "../components/product/ProductGrid";
 import type { AsyncState } from "../types/api";
 import type { Product, ProductsResponse } from "../types/products";
@@ -9,7 +10,7 @@ export default function CatalogPage() {
   const [state, setState] = useState<AsyncState<ProductsResponse>>({
     status: "loading",
   });
-
+  const { addItem } = useCart();
   useEffect(() => {
     let ignore = false; // cleanup-ის დროშა
 
@@ -32,7 +33,7 @@ export default function CatalogPage() {
 
   // დროებით: ხვალ CartContext-ის addItem-ით ჩავანაცვლებთ
   function handleAdd(product: Product) {
-    console.log("Add to cart:", product.title);
+    addItem(product, 1);
   }
 
   return (

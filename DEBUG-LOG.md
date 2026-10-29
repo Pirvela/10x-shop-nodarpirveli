@@ -15,3 +15,12 @@
 - **Root cause:** `@theme` is a Tailwind CSS v4 directive, not standard CSS. VS Code's built-in CSS language server does not recognize it. The Tailwind Vite plugin processes the file before the browser sees it, so the code itself was valid.
 - **Fix:** Installed the Tailwind CSS IntelliSense extension and associated `*.css` files with the `tailwindcss` language mode in VS Code settings.
 - **What I learned:** An editor warning is not always a code error. I check whether the build and the browser actually fail before changing code. The extension also adds autocomplete for my own theme tokens (e.g. `bg-sun`).
+
+## 3. File name casing conflict (ProductCard.tsx vs productcard.tsx)
+
+- **Symptom:** TypeScript error TS1149 on `import ProductCard from "./ProductCard"`: "File name differs from already included file name only in casing."
+- **Reproduction:** Created the component file with a lowercase name, then renamed it to `ProductCard.tsx`, while one reference still used the old name.
+- **Tool:** VS Code Problems panel and `npm run typecheck`; project-wide search (Ctrl+Shift+F) for `productcard`.
+- **Root cause:** Windows file system is case-insensitive, so both names pointed to the same file locally. Vercel builds on Linux, which is case-sensitive, so the wrong casing would break the production build with "Cannot find module".
+- **Fix:** Renamed the file to `ProductCard.tsx`, fixed the import to match exactly, and restarted the TS server. (commit link)
+- **What I learned:** Import paths must match file names exactly, including letter case. Something that works on Windows can still fail on the deploy server.

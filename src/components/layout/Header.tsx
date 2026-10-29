@@ -1,5 +1,6 @@
 import { Link, NavLink } from "react-router";
 import Container from "../ui/Container";
+import { useCart } from "../../context/cartContext";
 
 // NavLink თვითონ გვეუბნება, აქტიურია თუ არა ბმული (isActive)
 function navLinkClass({ isActive }: { isActive: boolean }): string {
@@ -10,6 +11,7 @@ function navLinkClass({ isActive }: { isActive: boolean }): string {
 }
 
 export default function Header() {
+  const { totalCount } = useCart();
   return (
     <header className="border-b-4 border-ink bg-white">
       <Container>
@@ -25,6 +27,12 @@ export default function Header() {
             </NavLink>
             <NavLink to="/cart" className={navLinkClass}>
               Cart
+              {/* > 0 და არა უბრალოდ totalCount &&, თორემ ცარიელ კალათაზე "0" დაიხატება */}
+              {totalCount > 0 && (
+                <span className="ml-1.5 inline-block min-w-6 rounded-full border-2 border-ink bg-punch px-1.5 text-center text-sm font-bold">
+                  {totalCount}
+                </span>
+              )}
             </NavLink>
             <NavLink to="/login" className={navLinkClass}>
               Log in
