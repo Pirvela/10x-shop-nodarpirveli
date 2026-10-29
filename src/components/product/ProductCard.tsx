@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import StockBadge from "./StockBadge";
 import type { Product } from "../../types/products";
 import { discountedPrice, formatPrice } from "../../utils/formats";
 
@@ -12,17 +13,6 @@ const TILE_COLORS = ["bg-sky", "bg-lime", "bg-blush", "bg-periwinkle"] as const;
 
 const badgeBase =
   "rounded-full border-2 border-ink px-2 py-0.5 text-xs font-bold";
-
-function StockBadge({ stock }: { stock: number }) {
-  // რიგი მნიშვნელოვანია: 0 ასევე ≤ 5-ია, ამიტომ ჯერ 0-ს ვამოწმებთ
-  if (stock === 0)
-    return <span className={`${badgeBase} bg-red-300`}>Out of stock</span>;
-  if (stock <= 5)
-    return (
-      <span className={`${badgeBase} bg-orange-300`}>Only {stock} left!</span>
-    );
-  return <span className={`${badgeBase} bg-white`}>In stock</span>;
-}
 
 export default function ProductCard({ product, onAdd }: ProductCardProps) {
   const finalPrice = discountedPrice(product.price, product.discountPercentage);
@@ -76,7 +66,7 @@ export default function ProductCard({ product, onAdd }: ProductCardProps) {
           )}
         </div>
 
-        <div className="mt-3 flex items-center justify-between gap-2 text-sm">
+        <div className="mt-auto flex items-center justify-between gap-2 pt-3 text-sm">
           <span aria-label={`Rating ${product.rating} out of 5`}>
             ★ {product.rating.toFixed(1)}
           </span>

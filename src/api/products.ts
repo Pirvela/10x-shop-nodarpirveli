@@ -1,4 +1,4 @@
-import type { ProductsResponse } from "../types/products";
+import type { Product, ProductsResponse } from "../types/products";
 
 const BASE_URL = "https://dummyjson.com";
 
@@ -16,4 +16,17 @@ export async function getProducts(
 
   // res.json() აბრუნებს any-ს. "as" ეუბნება TS-ს, რა ფორმას ველით
   return (await res.json()) as ProductsResponse;
+}
+
+// 404-ზე null-ს ვაბრუნებთ: "პროდუქტი არ არსებობს" ნორმალური პასუხია და არა ქსელის შეცდომა
+export async function getProductById(id: number): Promise<Product | null> {
+  const res = await fetch(`${BASE_URL}/products/${id}`);
+
+  if (res.status === 404) return null;
+
+  if (!res.ok) {
+    throw new Error(`Failed to load product (HTTP ${res.status})`);
+  }
+
+  return (await res.json()) as Product;
 }
