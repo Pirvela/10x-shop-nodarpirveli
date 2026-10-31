@@ -1,4 +1,5 @@
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
+import { useAuth } from "../../context/authContext";
 import Container from "../ui/Container";
 import { useCart } from "../../context/cartContext";
 
@@ -12,6 +13,13 @@ function navLinkClass({ isActive }: { isActive: boolean }): string {
 
 export default function Header() {
   const { totalCount } = useCart();
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  function handleLogout() {
+    logout();
+    navigate("/"); // PRD P0.3: Logout → კატალოგი
+  }
   return (
     <header className="border-b-4 border-ink bg-white">
       <Container>
@@ -20,7 +28,7 @@ export default function Header() {
           <Link to="/" className="text-2xl font-bold uppercase tracking-tight">
             10X Shop
           </Link>
-          <nav className="flex flex-wrap gap-1">
+          <nav className="flex flex-wrap items-center gap-1">
             {/* end: აქტიურია მხოლოდ ზუსტად "/"-ზე */}
             <NavLink to="/" end className={navLinkClass}>
               Catalog
@@ -34,9 +42,25 @@ export default function Header() {
                 </span>
               )}
             </NavLink>
-            <NavLink to="/login" className={navLinkClass}>
-              Log in
-            </NavLink>
+            {user.isLoggedIn ? (
+              // გამყოფი ხაზი მხოლოდ sm-დან: მობილურზე ზონა ახალ რიგში გადადის და ხაზი ზედმეტია
+              <div className="flex items-center gap-2 sm:ml-2 sm:border-l-3 sm:border-ink sm:pl-4">
+                <span className="text-sm">
+                  Hi, <span className="font-bold">{user.username}</span>
+                </span>
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="rounded-lg border-2 border-ink bg-white px-3 py-1 text-sm font-bold shadow-brutal-sm transition-all hover:bg-sun active:translate-x-0.5 active:translate-y-0.5 active:shadow-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-ink"
+                >
+                  Log out
+                </button>
+              </div>
+            ) : (
+              <NavLink to="/login" className={navLinkClass}>
+                Log in
+              </NavLink>
+            )}
           </nav>
         </div>
       </Container>
