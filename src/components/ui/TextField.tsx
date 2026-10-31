@@ -40,7 +40,6 @@ export default function TextField({
       />
       {error && (
         <p id={errorId} className="mt-1 text-sm font-bold text-red-700">
-          npm run typecheck
           {error}
         </p>
       )}
