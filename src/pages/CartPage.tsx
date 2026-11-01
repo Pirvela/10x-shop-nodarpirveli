@@ -1,7 +1,8 @@
 import { Link } from "react-router";
 import CartLine from "../components/cart/CartLine";
 import { useCart } from "../context/cartContext";
-import { discountedPrice, formatPrice } from "../utils/formats";
+import { formatPrice } from "../utils/formats";
+import { cartTotal } from "../utils/cart";
 
 const focusRing =
   "focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-ink";
@@ -28,12 +29,7 @@ export default function CartPage() {
     (sum, item) => sum + item.price * item.quantity,
     0,
   );
-  const total = items.reduce(
-    (sum, item) =>
-      sum +
-      discountedPrice(item.price, item.discountPercentage) * item.quantity,
-    0,
-  );
+  const total = cartTotal(items);
   const savings = subtotal - total;
 
   function handleClear() {
