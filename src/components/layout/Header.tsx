@@ -7,7 +7,7 @@ import { useCart } from "../../context/cartContext";
 function navLinkClass({ isActive }: { isActive: boolean }): string {
   // border-2 ყოველთვის არის (transparent), რომ hover-ზე ზომა არ "გადახტეს"
   const base =
-    "rounded-lg border-2 px-3 py-1.5 font-medium transition-colors hover:border-ink focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-ink";
+    "inline-flex min-h-11 items-center rounded-lg border-2 px-3 font-medium transition-colors hover:border-ink focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-ink";
   return isActive ? `${base} border-ink bg-sun` : `${base} border-transparent`;
 }
 
@@ -51,7 +51,7 @@ export default function Header() {
                 <button
                   type="button"
                   onClick={handleLogout}
-                  className="rounded-lg border-2 border-ink bg-white px-3 py-1 text-sm font-bold shadow-brutal-sm transition-all hover:bg-sun active:translate-x-0.5 active:translate-y-0.5 active:shadow-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-ink"
+                  className="min-h-11 rounded-lg border-2 border-ink bg-white px-4 text-sm font-bold shadow-brutal-sm transition-all hover:bg-sun active:translate-x-0.5 active:translate-y-0.5 active:shadow-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-ink"
                 >
                   Log out
                 </button>

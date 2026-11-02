@@ -50,7 +50,7 @@ export default function LoginPage() {
     <section className="mx-auto max-w-md">
       <Link
         to="/"
-        className={`inline-block rounded-lg font-bold hover:underline ${focusRing}`}
+        className={`inline-flex min-h-11 items-center rounded-lg font-bold hover:underline ${focusRing}`}
       >
         ← Back to catalog
       </Link>

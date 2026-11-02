@@ -63,7 +63,7 @@ export default function CartPage() {
           <button
             type="button"
             onClick={handleClear}
-            className={`mt-6 rounded-lg px-2 py-1 font-bold underline underline-offset-4 hover:bg-red-200 ${focusRing}`}
+            className={`mt-6 min-h-11 rounded-lg px-3 font-bold underline underline-offset-4 hover:bg-red-200 ${focusRing}`}
           >
             Clear cart
           </button>

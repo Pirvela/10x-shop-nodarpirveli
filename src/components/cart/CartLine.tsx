@@ -81,7 +81,7 @@ export default function CartLine({
           <button
             type="button"
             onClick={() => onRemove(item.productId)}
-            className={`ml-auto rounded-lg px-2 py-1 font-bold underline underline-offset-4 hover:bg-red-200 ${focusRing}`}
+            className={`ml-auto min-h-11 rounded-lg px-3 font-bold underline underline-offset-4 hover:bg-red-200 ${focusRing}`}
           >
             Remove
           </button>

@@ -49,7 +49,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
     <section>
       <Link
         to="/"
-        className={`inline-block rounded-lg font-bold underline-offset-4 hover:underline ${focusRing}`}
+        className={`inline-flex min-h-11 items-center rounded-lg font-bold underline-offset-4 hover:underline ${focusRing}`}
       >
         ← Back to catalog
       </Link>
