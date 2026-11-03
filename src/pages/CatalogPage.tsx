@@ -6,7 +6,8 @@ import { useCart } from "../context/cartContext";
 import { useToast } from "../context/toastContext";
 import type { AsyncState } from "../types/api";
 import type { Product, ProductsResponse } from "../types/products";
-import { parseCatalogParams } from "../utils/url";
+import { PAGE_SIZE, parseCatalogParams } from "../utils/url";
+import Pagination from "../components/catalog/Pagination";
 
 // შედეგი + რომელ მოთხოვნას ეკუთვნის
 interface CatalogResult {
@@ -15,7 +16,7 @@ interface CatalogResult {
 }
 
 export default function CatalogPage() {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   // პრიმიტივებად ვშლით: effect-ის dependency-ში ობიექტი ყოველ render-ზე "ახალი" იქნებოდა
   const { q, category, sort, page } = parseCatalogParams(searchParams);
   const requestKey = `${q}|${category}|${sort}|${page}`;
@@ -45,6 +46,14 @@ export default function CatalogPage() {
     // პარამეტრი შეიცვალა ან გვერდიდან წავედით → ძველი მოთხოვნა უქმდება
     return () => controller.abort();
   }, [q, category, sort, page, requestKey]);
+
+  function handlePageChange(newPage: number) {
+    // ასლი: category, sort და q უცვლელი რჩება, იცვლება მხოლოდ page
+    const next = new URLSearchParams(searchParams);
+    next.set("page", String(newPage));
+    setSearchParams(next);
+    window.scrollTo(0, 0); // PRD: გვერდის ცვლილებისას ზემოთ
+  }
 
   function handleAdd(product: Product) {
     const added = addItem(product, 1);
@@ -82,6 +91,14 @@ export default function CatalogPage() {
               {state.data.total}
             </p>
             <ProductGrid products={state.data.products} onAdd={handleAdd} />
+            {/* PRD: გვერდების რაოდენობა = Math.ceil(total / limit). ერთ გვერდზე პაგინაცია არ ჩანს */}
+            {Math.ceil(state.data.total / PAGE_SIZE) > 1 && (
+              <Pagination
+                page={page}
+                totalPages={Math.ceil(state.data.total / PAGE_SIZE)}
+                onChange={handlePageChange}
+              />
+            )}
           </>
         ))}
     </section>
