@@ -1,20 +1,20 @@
 import type { Product, ProductsResponse } from "../types/products";
+import type { CatalogParams } from "../types/catalog";
+import { buildProductsUrl } from "../utils/url";
 
 const BASE_URL = "https://dummyjson.com";
 
+// signal: AbortController-ისგან. abort() ამ მოთხოვნას გააუქმებს
 export async function getProducts(
-  limit = 12,
-  skip = 0,
+  params: CatalogParams,
+  signal?: AbortSignal,
 ): Promise<ProductsResponse> {
-  const res = await fetch(`${BASE_URL}/products?limit=${limit}&skip=${skip}`);
+  const res = await fetch(BASE_URL + buildProductsUrl(params), { signal });
 
-  // fetch მხოლოდ ქსელის გათიშვაზე "ვარდება". 404/500 მისთვის ჩვეულებრივი პასუხია,
-  // ამიტომ res.ok-ს თვითონ ვამოწმებთ და შეცდომას ვისვრით
   if (!res.ok) {
     throw new Error(`Failed to load products (HTTP ${res.status})`);
   }
 
-  // res.json() აბრუნებს any-ს. "as" ეუბნება TS-ს, რა ფორმას ველით
   return (await res.json()) as ProductsResponse;
 }
 

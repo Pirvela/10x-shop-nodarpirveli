@@ -1,40 +1,52 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router";
 import { getProducts } from "../api/products";
+import ProductGrid from "../components/product/ProductGrid";
 import { useCart } from "../context/cartContext";
 import { useToast } from "../context/toastContext";
-import ProductGrid from "../components/product/ProductGrid";
 import type { AsyncState } from "../types/api";
 import type { Product, ProductsResponse } from "../types/products";
+import { parseCatalogParams } from "../utils/url";
+
+// შედეგი + რომელ მოთხოვნას ეკუთვნის
+interface CatalogResult {
+  key: string;
+  state: AsyncState<ProductsResponse>;
+}
 
 export default function CatalogPage() {
-  // საწყისი მდგომარეობა "loading": გვერდი გახსნისთანავე იტვირთება
-  const [state, setState] = useState<AsyncState<ProductsResponse>>({
-    status: "loading",
-  });
+  const [searchParams] = useSearchParams();
+  // პრიმიტივებად ვშლით: effect-ის dependency-ში ობიექტი ყოველ render-ზე "ახალი" იქნებოდა
+  const { q, category, sort, page } = parseCatalogParams(searchParams);
+  const requestKey = `${q}|${category}|${sort}|${page}`;
+
+  const [result, setResult] = useState<CatalogResult | null>(null);
   const { addItem } = useCart();
   const { showToast } = useToast();
-  useEffect(() => {
-    let ignore = false; // cleanup-ის დროშა
 
-    getProducts()
-      .then((data) => {
-        if (!ignore) setState({ status: "success", data });
-      })
+  // გამოთვლილი: თუ შედეგი სხვა მოთხოვნას ეკუთვნის, ახალი ჯერ იტვირთება
+  const state: AsyncState<ProductsResponse> =
+    result && result.key === requestKey ? result.state : { status: "loading" };
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    getProducts({ q, category, sort, page }, controller.signal)
+      .then((data) =>
+        setResult({ key: requestKey, state: { status: "success", data } }),
+      )
       .catch((error: unknown) => {
-        if (ignore) return;
-        // catch-ში error unknown-ია: ჯერ ვამოწმებთ, ნამდვილად Error არის თუ არა
+        if (controller.signal.aborted) return; // ჩვენ თვითონ გავაუქმეთ, ეს შეცდომა არ არის
         const message =
           error instanceof Error ? error.message : "Something went wrong.";
-        setState({ status: "error", message });
+        setResult({ key: requestKey, state: { status: "error", message } });
       });
 
-    return () => {
-      ignore = true; // გვერდიდან წასვლისას ძველი პასუხი state-ს აღარ შეცვლის
-    };
-  }, []); // [] = ერთხელ, გვერდის გახსნისას
+    // პარამეტრი შეიცვალა ან გვერდიდან წავედით → ძველი მოთხოვნა უქმდება
+    return () => controller.abort();
+  }, [q, category, sort, page, requestKey]);
 
   function handleAdd(product: Product) {
-    // addItem აბრუნებს false-ს, თუ კალათაში უკვე მთელი მარაგია
     const added = addItem(product, 1);
     showToast(added ? "Added to cart ✓" : "No more stock for this product");
   }
@@ -59,7 +71,6 @@ export default function CatalogPage() {
         </div>
       )}
 
-      {/* აქ TS უკვე იცის, რომ state.data არსებობს (narrowing) */}
       {state.status === "success" &&
         (state.data.products.length === 0 ? (
           <p className="mt-8 text-lg font-medium">No products found.</p>
