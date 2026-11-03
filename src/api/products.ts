@@ -1,4 +1,4 @@
-import type { Product, ProductsResponse } from "../types/products";
+import type { Category, Product, ProductsResponse } from "../types/products";
 import type { CatalogParams } from "../types/catalog";
 import { buildProductsUrl } from "../utils/url";
 
@@ -29,4 +29,14 @@ export async function getProductById(id: number): Promise<Product | null> {
   }
 
   return (await res.json()) as Product;
+}
+
+export async function getCategories(): Promise<Category[]> {
+  const res = await fetch(`${BASE_URL}/products/categories`);
+
+  if (!res.ok) {
+    throw new Error(`Failed to load categories (HTTP ${res.status})`);
+  }
+
+  return (await res.json()) as Category[];
 }

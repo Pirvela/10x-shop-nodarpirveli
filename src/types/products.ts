@@ -20,3 +20,10 @@ export interface ProductsResponse {
   skip: number;
   limit: number;
 }
+
+// GET /products/categories-ის ერთი ელემენტი
+export interface Category {
+  slug: string;
+  name: string;
+  url: string;
+}

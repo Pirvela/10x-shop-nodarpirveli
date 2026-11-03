@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
-import { getProducts } from "../api/products";
+import { getCategories, getProducts } from "../api/products";
+import CatalogToolbar from "../components/catalog/CatalogToolbar";
+import type { SortOption } from "../types/catalog";
 import ProductGrid from "../components/product/ProductGrid";
 import { useCart } from "../context/cartContext";
 import { useToast } from "../context/toastContext";
 import type { AsyncState } from "../types/api";
-import type { Product, ProductsResponse } from "../types/products";
+import type { Category, Product, ProductsResponse } from "../types/products";
 import { PAGE_SIZE, parseCatalogParams } from "../utils/url";
 import Pagination from "../components/catalog/Pagination";
 
@@ -22,6 +24,14 @@ export default function CatalogPage() {
   const requestKey = `${q}|${category}|${sort}|${page}`;
 
   const [result, setResult] = useState<CatalogResult | null>(null);
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  // კატეგორიები ერთხელ იტვირთება. შეცდომისას select-ში მხოლოდ "All categories" დარჩება
+  useEffect(() => {
+    getCategories()
+      .then(setCategories)
+      .catch(() => setCategories([]));
+  }, []);
   const { addItem } = useCart();
   const { showToast } = useToast();
 
@@ -47,6 +57,25 @@ export default function CatalogPage() {
     return () => controller.abort();
   }, [q, category, sort, page, requestKey]);
 
+  // URL-ის რამდენიმე პარამეტრის ერთად შეცვლა. ცარიელი მნიშვნელობა = წაშალე URL-იდან
+  function updateParams(changes: Record<string, string>) {
+    const next = new URLSearchParams(searchParams); // ასლი, არა მუტაცია
+    for (const [key, value] of Object.entries(changes)) {
+      if (value) next.set(key, value);
+      else next.delete(key);
+    }
+    setSearchParams(next);
+  }
+
+  function handleCategoryChange(slug: string) {
+    // PRD: კატეგორია ძებნას შლის და პირველ გვერდზე ბრუნდება
+    updateParams({ category: slug, q: "", page: "" });
+  }
+
+  function handleSortChange(newSort: SortOption) {
+    updateParams({ sort: newSort, page: "" });
+  }
+
   function handlePageChange(newPage: number) {
     // ასლი: category, sort და q უცვლელი რჩება, იცვლება მხოლოდ page
     const next = new URLSearchParams(searchParams);
@@ -63,6 +92,14 @@ export default function CatalogPage() {
   return (
     <section>
       <h1 className="text-5xl font-bold sm:text-6xl">Catalog</h1>
+
+      <CatalogToolbar
+        category={category}
+        sort={sort}
+        categories={categories}
+        onCategoryChange={handleCategoryChange}
+        onSortChange={handleSortChange}
+      />
 
       {state.status === "loading" && (
         <p role="status" className="mt-8 text-lg font-medium">
