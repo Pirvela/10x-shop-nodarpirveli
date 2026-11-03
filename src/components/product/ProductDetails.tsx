@@ -100,7 +100,13 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
 
         <div className="rounded-2xl border-3 border-ink bg-white p-6 shadow-brutal">
           <p className="text-sm font-bold uppercase tracking-wide">
-            {product.category}
+            {/* PRD P3.1: კატეგორიაზე დაჭერა კატალოგს ამ კატეგორიით ხსნის */}
+            <Link
+              to={`/?category=${product.category}`}
+              className={`rounded underline-offset-4 hover:underline ${focusRing}`}
+            >
+              {product.category}
+            </Link>
             {product.brand && ` · ${product.brand}`}
           </p>
           <h1 className="mt-2 text-3xl font-bold sm:text-4xl">

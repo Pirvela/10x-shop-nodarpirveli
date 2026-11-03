@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router";
+import { Link, useSearchParams } from "react-router";
 import { getCategories, getProducts } from "../api/products";
 import CatalogToolbar from "../components/catalog/CatalogToolbar";
 import type { SortOption } from "../types/catalog";
@@ -131,7 +131,16 @@ export default function CatalogPage() {
 
       {state.status === "success" &&
         (state.data.products.length === 0 ? (
-          <p className="mt-8 text-lg font-medium">No products found.</p>
+          <div className="mt-8">
+            <p className="text-lg font-medium">No products found.</p>
+            {/* ფილტრები მხოლოდ URL-შია, ამიტომ "/" ყველაფერს ასუფთავებს */}
+            <Link
+              to="/"
+              className="mt-4 inline-flex min-h-11 items-center rounded-xl border-3 border-ink bg-white px-5 font-bold shadow-brutal-sm transition-all hover:bg-sun active:translate-x-0.5 active:translate-y-0.5 active:shadow-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-ink"
+            >
+              Clear filters
+            </Link>
+          </div>
         ) : (
           <>
             <p className="mt-2 font-medium">
