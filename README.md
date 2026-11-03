@@ -19,6 +19,7 @@ An online shop single-page application built with React, TypeScript and Tailwind
 ### Extra
 
 - Custom design tokens with Tailwind `@theme` (neo-brutalist style)
+- Route-level code splitting with `React.lazy` and `Suspense`
 
 ## Tech stack
 
