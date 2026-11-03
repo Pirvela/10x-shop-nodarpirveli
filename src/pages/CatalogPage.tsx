@@ -9,6 +9,7 @@ import { useToast } from "../context/toastContext";
 import type { AsyncState } from "../types/api";
 import type { Category, Product, ProductsResponse } from "../types/products";
 import { PAGE_SIZE, parseCatalogParams } from "../utils/url";
+import { useDebounce } from "../hooks/useDebounce";
 import Pagination from "../components/catalog/Pagination";
 
 // შედეგი + რომელ მოთხოვნას ეკუთვნის
@@ -21,7 +22,10 @@ export default function CatalogPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   // პრიმიტივებად ვშლით: effect-ის dependency-ში ობიექტი ყოველ render-ზე "ახალი" იქნებოდა
   const { q, category, sort, page } = parseCatalogParams(searchParams);
-  const requestKey = `${q}|${category}|${sort}|${page}`;
+  // ველი URL-ის "ნედლ" q-ს აჩვენებს (ჰარებით), მოთხოვნა კი დაყოვნებულს
+  const searchText = searchParams.get("q") ?? "";
+  const debouncedQ = useDebounce(q, 400);
+  const requestKey = `${debouncedQ}|${category}|${sort}|${page}`;
 
   const [result, setResult] = useState<CatalogResult | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -42,7 +46,7 @@ export default function CatalogPage() {
   useEffect(() => {
     const controller = new AbortController();
 
-    getProducts({ q, category, sort, page }, controller.signal)
+    getProducts({ q: debouncedQ, category, sort, page }, controller.signal)
       .then((data) =>
         setResult({ key: requestKey, state: { status: "success", data } }),
       )
@@ -55,16 +59,22 @@ export default function CatalogPage() {
 
     // პარამეტრი შეიცვალა ან გვერდიდან წავედით → ძველი მოთხოვნა უქმდება
     return () => controller.abort();
-  }, [q, category, sort, page, requestKey]);
+  }, [debouncedQ, category, sort, page, requestKey]);
 
   // URL-ის რამდენიმე პარამეტრის ერთად შეცვლა. ცარიელი მნიშვნელობა = წაშალე URL-იდან
-  function updateParams(changes: Record<string, string>) {
+  function updateParams(changes: Record<string, string>, replace = false) {
     const next = new URLSearchParams(searchParams); // ასლი, არა მუტაცია
     for (const [key, value] of Object.entries(changes)) {
       if (value) next.set(key, value);
       else next.delete(key);
     }
-    setSearchParams(next);
+    setSearchParams(next, { replace });
+  }
+
+  function handleSearchChange(text: string) {
+    // PRD: ძებნა კატეგორიას შლის და პირველ გვერდზე ბრუნდება.
+    // replace: ყოველი ასო ისტორიაში ახალ ჩანაწერს არ ქმნის
+    updateParams({ q: text, category: "", page: "" }, true);
   }
 
   function handleCategoryChange(slug: string) {
@@ -99,6 +109,8 @@ export default function CatalogPage() {
         categories={categories}
         onCategoryChange={handleCategoryChange}
         onSortChange={handleSortChange}
+        searchText={searchText}
+        onSearchChange={handleSearchChange}
       />
 
       {state.status === "loading" && (

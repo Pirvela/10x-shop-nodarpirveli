@@ -8,6 +8,8 @@ interface CatalogToolbarProps {
   categories: Category[];
   onCategoryChange: (slug: string) => void;
   onSortChange: (sort: SortOption) => void;
+  searchText: string;
+  onSearchChange: (text: string) => void;
 }
 
 const selectClass =
@@ -19,10 +21,27 @@ export default function CatalogToolbar({
   categories,
   onCategoryChange,
   onSortChange,
+  searchText,
+  onSearchChange,
 }: CatalogToolbarProps) {
   return (
     // mobile: ერთმანეთის ქვეშ, sm-დან: ერთ რიგში
+
     <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-end">
+      {/* flex-1: ძებნა მთელ თავისუფალ სიგანეს იკავებს */}
+      <div className="sm:flex-1">
+        <label htmlFor="search" className="block font-bold">
+          Search
+        </label>
+        <input
+          id="search"
+          type="search"
+          value={searchText}
+          onChange={(e) => onSearchChange(e.target.value)}
+          placeholder="Try “phone”"
+          className={selectClass}
+        />
+      </div>
       <div className="sm:w-56">
         <label htmlFor="category" className="block font-bold">
           Category
