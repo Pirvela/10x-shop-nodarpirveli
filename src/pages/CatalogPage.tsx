@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getProducts } from "../api/products";
 import { useCart } from "../context/cartContext";
+import { useToast } from "../context/toastContext";
 import ProductGrid from "../components/product/ProductGrid";
 import type { AsyncState } from "../types/api";
 import type { Product, ProductsResponse } from "../types/products";
@@ -11,6 +12,7 @@ export default function CatalogPage() {
     status: "loading",
   });
   const { addItem } = useCart();
+  const { showToast } = useToast();
   useEffect(() => {
     let ignore = false; // cleanup-ის დროშა
 
@@ -31,9 +33,10 @@ export default function CatalogPage() {
     };
   }, []); // [] = ერთხელ, გვერდის გახსნისას
 
-  // დროებით: ხვალ CartContext-ის addItem-ით ჩავანაცვლებთ
   function handleAdd(product: Product) {
-    addItem(product, 1);
+    // addItem აბრუნებს false-ს, თუ კალათაში უკვე მთელი მარაგია
+    const added = addItem(product, 1);
+    showToast(added ? "Added to cart ✓" : "No more stock for this product");
   }
 
   return (

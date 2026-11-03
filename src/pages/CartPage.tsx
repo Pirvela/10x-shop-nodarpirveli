@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import CartLine from "../components/cart/CartLine";
 import { useCart } from "../context/cartContext";
+import { useToast } from "../context/toastContext";
 import { formatPrice } from "../utils/formats";
 import { cartTotal } from "../utils/cart";
 
@@ -10,7 +11,7 @@ const primaryButton = `inline-block rounded-xl border-3 border-ink bg-punch px-6
 
 export default function CartPage() {
   const { items, totalCount, setQuantity, removeItem, clearCart } = useCart();
-
+  const { showToast } = useToast();
   // ცარიელი კალათა: ტექსტები PRD-დან (P4.1), შეჯამება არ ჩანს
   if (items.length === 0) {
     return (
@@ -31,6 +32,11 @@ export default function CartPage() {
   );
   const total = cartTotal(items);
   const savings = subtotal - total;
+
+  function handleRemove(productId: number) {
+    removeItem(productId);
+    showToast("Removed from cart");
+  }
 
   function handleClear() {
     // window.confirm აბრუნებს true-ს, თუ მომხმარებელმა OK დააჭირა
@@ -56,7 +62,7 @@ export default function CartPage() {
                 key={item.productId}
                 item={item}
                 onQuantityChange={setQuantity}
-                onRemove={removeItem}
+                onRemove={handleRemove}
               />
             ))}
           </ul>
