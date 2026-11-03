@@ -20,6 +20,10 @@ An online shop single-page application built with React, TypeScript and Tailwind
 
 - Custom design tokens with Tailwind `@theme` (neo-brutalist style)
 - Route-level code splitting with `React.lazy` and `Suspense`
+- Toast notifications for cart actions
+- Search with a 400 ms debounce (`useDebounce` custom hook), category filter, sorting and pagination
+- All catalog filters live in the URL, so refresh, back/forward and shared links keep them
+- Stale requests are cancelled with `AbortController`
 
 ## Tech stack
 
