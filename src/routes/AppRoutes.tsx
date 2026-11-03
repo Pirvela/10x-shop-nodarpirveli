@@ -1,12 +1,15 @@
+import { lazy } from "react";
 import { Routes, Route } from "react-router";
 import Layout from "../components/layout/Layout";
-import CatalogPage from "../pages/CatalogPage";
-import LoginPage from "../pages/LoginPage";
-import ProductPage from "../pages/ProductPage";
-import CartPage from "../pages/CartPage";
-import CheckoutPage from "../pages/CheckoutPage";
+
 import NotFoundPage from "../pages/NotFoundPage";
 import ProtectedRoute from "./ProtectedRoute";
+// თითო გვერდი ცალკე chunk-ია და მხოლოდ იქ გადასვლისას იტვირთება
+const CatalogPage = lazy(() => import("../pages/CatalogPage"));
+const LoginPage = lazy(() => import("../pages/LoginPage"));
+const ProductPage = lazy(() => import("../pages/ProductPage"));
+const CartPage = lazy(() => import("../pages/CartPage"));
+const CheckoutPage = lazy(() => import("../pages/CheckoutPage"));
 
 export default function AppRoutes() {
   return (

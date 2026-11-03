@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Outlet, useLocation } from "react-router";
 import ErrorBoundary from "../ErrorBoundary";
 import Header from "./Header";
@@ -16,7 +17,16 @@ export default function Layout() {
         <Container>
           {/* key: სხვა გვერდზე გადასვლისას Boundary თავიდან იქმნება და შეცდომა ნულდება */}
           <ErrorBoundary key={pathname}>
-            <Outlet />
+            {/* სანამ გვერდის chunk იტვირთება, fallback ჩანს. Header/Footer ადგილზე რჩება */}
+            <Suspense
+              fallback={
+                <p role="status" className="text-lg font-medium">
+                  Loading…
+                </p>
+              }
+            >
+              <Outlet />
+            </Suspense>
           </ErrorBoundary>
         </Container>
       </main>
