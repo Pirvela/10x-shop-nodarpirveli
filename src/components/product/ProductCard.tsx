@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import StockBadge from "./StockBadge";
+import { useCart } from "../../context/cartContext";
 import type { Product } from "../../types/products";
 import { discountedPrice, formatPrice } from "../../utils/formats";
 
@@ -18,6 +19,11 @@ export default function ProductCard({ product, onAdd }: ProductCardProps) {
   const finalPrice = discountedPrice(product.price, product.discountPercentage);
   const hasDiscount = product.discountPercentage >= 1;
   const isOutOfStock = product.stock === 0;
+
+  // რამდენი ცალია უკვე კალათაში. გამოითვლება და state-ში არ ინახება
+  const { items } = useCart();
+  const inCart =
+    items.find((item) => item.productId === product.id)?.quantity ?? 0;
   // id-ით ფერს ვირჩევთ, რომ ერთი პროდუქტი ყოველთვის ერთი ფერის იყოს
   const tileColor = TILE_COLORS[product.id % TILE_COLORS.length];
 
@@ -29,7 +35,7 @@ export default function ProductCard({ product, onAdd }: ProductCardProps) {
         className="group flex flex-1 flex-col rounded-xl focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-ink"
       >
         <div
-          className={`${tileColor} overflow-hidden rounded-xl border-2 border-ink`}
+          className={`${tileColor} relative overflow-hidden rounded-xl border-2 border-ink`}
         >
           {/* width/height: ბრაუზერი ადგილს წინასწარ იტოვებს და გვერდი არ "ხტება" (CLS) */}
           <img
@@ -40,6 +46,12 @@ export default function ProductCard({ product, onAdd }: ProductCardProps) {
             loading="lazy"
             className="aspect-square w-full object-contain transition-transform group-hover:scale-105"
           />
+          {/* > 0 და არა უბრალოდ inCart &&, თორემ 0-ზე "0" დაიხატება */}
+          {inCart > 0 && (
+            <span className="absolute top-2 right-2 rounded-full border-2 border-ink bg-punch px-2.5 py-0.5 text-sm font-bold shadow-brutal-sm">
+              {inCart} in cart
+            </span>
+          )}
         </div>
 
         <p className="mt-3 text-xs font-bold uppercase tracking-wide">
