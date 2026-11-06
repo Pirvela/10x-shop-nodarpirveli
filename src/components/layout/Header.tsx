@@ -73,7 +73,35 @@ export default function Header() {
               }
               className="ml-1 inline-flex size-11 items-center justify-center rounded-lg border-2 border-ink bg-paper text-xl shadow-brutal-sm transition-all hover:bg-sun active:translate-x-0.5 active:translate-y-0.5 active:shadow-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-ink dark:bg-punch dark:text-neutral-950"
             >
-              {theme === "dark" ? "☀" : "☾"}
+              {/* aria-hidden: ღილაკს უკვე აქვს aria-label, ხატულა მხოლოდ ვიზუალურია */}
+              {theme === "dark" ? (
+                // მზე: წრე + 8 სხივი
+                <svg
+                  viewBox="0 0 24 24"
+                  className="size-6"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2.5}
+                  strokeLinecap="round"
+                  aria-hidden="true"
+                >
+                  <circle cx="12" cy="12" r="4" />
+                  <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+                </svg>
+              ) : (
+                // მთვარე: შევსებული ნამგალი
+                <svg
+                  viewBox="0 0 24 24"
+                  className="size-6"
+                  fill="currentColor"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                </svg>
+              )}
             </button>
           </nav>
         </div>
