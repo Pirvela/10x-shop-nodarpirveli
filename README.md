@@ -24,6 +24,8 @@ An online shop single-page application built with React, TypeScript and Tailwind
 - Search with a 400 ms debounce (`useDebounce` custom hook), category filter, sorting and pagination
 - All catalog filters live in the URL, so refresh, back/forward and shared links keep them
 - Stale requests are cancelled with `AbortController`
+- Cart quantity badge on product cards
+- Dark mode with a header toggle, saved in `localStorage` (`useTheme` custom hook)
 
 ## Tech stack
 
