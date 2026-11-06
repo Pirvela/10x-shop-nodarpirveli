@@ -57,7 +57,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
       {/* mobile ერთი სვეტი, md-დან ორი (გალერეა | ინფორმაცია) */}
       <div className="mt-6 grid gap-8 md:grid-cols-2">
         <div>
-          <div className="rounded-2xl border-3 border-ink bg-white p-4 shadow-brutal">
+          <div className="rounded-2xl border-3 border-ink bg-paper p-4 shadow-brutal">
             <img
               src={selectedImage}
               alt={product.title}
@@ -77,7 +77,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                     onClick={() => setSelectedImage(image)}
                     aria-label={`Show image ${index + 1}`}
                     aria-pressed={image === selectedImage}
-                    className={`overflow-hidden rounded-lg border-3 bg-white ${
+                    className={`overflow-hidden rounded-lg border-3 bg-paper ${
                       image === selectedImage
                         ? "border-ink"
                         : "border-transparent hover:border-ink"
@@ -98,7 +98,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
           )}
         </div>
 
-        <div className="rounded-2xl border-3 border-ink bg-white p-6 shadow-brutal">
+        <div className="rounded-2xl border-3 border-ink bg-paper p-6 shadow-brutal">
           <p className="text-sm font-bold uppercase tracking-wide">
             {/* PRD P3.1: კატეგორიაზე დაჭერა კატალოგს ამ კატეგორიით ხსნის */}
             <Link

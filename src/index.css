@@ -8,6 +8,7 @@
   --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
 
   --color-ink: #111111; /* ჩარჩოები, ტექსტი, ჩრდილი */
+  --color-paper: #ffffff;
   --color-sun: #ffe45e; /* გვერდის ფონი */
   --color-punch: #ff4d6d; /* მთავარი ღილაკები */
   --color-punch-dark: #e63956; /* ღილაკის hover */
@@ -21,4 +22,29 @@
   /* მყარი ჩრდილი: ბუნდოვანება 0, ოფსეტი მარჯვნივ-ქვემოთ */
   --shadow-brutal: 6px 6px 0 0 var(--color-ink);
   --shadow-brutal-sm: 3px 3px 0 0 var(--color-ink);
+}
+
+/* dark: კლასზე დაფუძნებული (html.dark) და არა სისტემის პარამეტრზე.
+   ამის შემდეგ კომპონენტებში dark: პრეფიქსიც მუშაობს */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Dark თემა: იგივე ტოკენები, სხვა მნიშვნელობები.
+   კომპონენტები bg-sun / bg-paper / border-ink-ს იყენებს, ამიტომ თავისით იცვლება */
+.dark {
+  color-scheme: dark; /* select, scrollbar და სხვა ჩაშენებული ელემენტებიც მუქდება */
+  --color-sun: #1d1b2e;
+  --color-paper: #2b2942;
+  --color-ink: #f5f0e1;
+}
+
+/* ნათელ ზედაპირებზე (ღილაკები, ბეჯები) ტექსტი მუქი რჩება, რომ კონტრასტი არ დაიკარგოს */
+.dark :is(.bg-punch, .bg-lime, .bg-green-300, .bg-orange-300, .bg-red-300),
+.dark .disabled\:bg-gray-300:disabled,
+.dark .hover\:bg-red-200:hover {
+  color: #111111;
+}
+
+/* ფორმის შეცდომები მუქ ფონზე */
+.dark .text-red-700 {
+  color: #fca5a5;
 }

@@ -34,7 +34,7 @@ export default function TextField({
         aria-invalid={error ? true : undefined}
         aria-describedby={error ? errorId : undefined}
         // focus: ჩრდილი ჩნდება (ჩვენი brutal სტილი). შეცდომისას ჩარჩო წითლდება
-        className={`mt-1 w-full rounded-xl border-3 bg-white px-4 py-3 text-lg outline-none transition-shadow focus:shadow-brutal-sm ${
+        className={`mt-1 w-full rounded-xl border-3 bg-paper px-4 py-3 text-lg outline-none transition-shadow focus:shadow-brutal-sm ${
           error ? "border-red-600" : "border-ink"
         }`}
       />

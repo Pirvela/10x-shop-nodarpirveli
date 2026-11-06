@@ -28,7 +28,7 @@ export default function ProductCard({ product, onAdd }: ProductCardProps) {
   const tileColor = TILE_COLORS[product.id % TILE_COLORS.length];
 
   return (
-    <article className="flex w-full flex-col rounded-2xl border-3 border-ink bg-white p-4 shadow-brutal">
+    <article className="flex w-full flex-col rounded-2xl border-3 border-ink bg-paper p-4 shadow-brutal">
       {/* ბარათი ბმულია, ღილაკის გარდა. ღილაკი Link-ის შიგნით არ უნდა იყოს (a11y) */}
       <Link
         to={`/products/${product.id}`}

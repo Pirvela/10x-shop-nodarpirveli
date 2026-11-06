@@ -48,7 +48,7 @@ export default function Pagination({
             onClick={() => onChange(page - 1)}
             disabled={page === 1}
             aria-label="Previous page"
-            className={`${baseButton} bg-white enabled:hover:bg-sun disabled:cursor-not-allowed disabled:opacity-40`}
+            className={`${baseButton} bg-paper enabled:hover:bg-sun disabled:cursor-not-allowed disabled:opacity-40`}
           >
             ‹
           </button>
@@ -71,7 +71,7 @@ export default function Pagination({
                 onClick={() => onChange(item)}
                 // aria-current: ეკრანის წამკითხველი იტყვის "current page"
                 aria-current={item === page ? "page" : undefined}
-                className={`${baseButton} ${item === page ? "bg-punch shadow-brutal-sm" : "bg-white hover:bg-sun"}`}
+                className={`${baseButton} ${item === page ? "bg-punch shadow-brutal-sm" : "bg-paper hover:bg-sun"}`}
               >
                 {item}
               </button>
@@ -85,7 +85,7 @@ export default function Pagination({
             onClick={() => onChange(page + 1)}
             disabled={page === totalPages}
             aria-label="Next page"
-            className={`${baseButton} bg-white enabled:hover:bg-sun disabled:cursor-not-allowed disabled:opacity-40`}
+            className={`${baseButton} bg-paper enabled:hover:bg-sun disabled:cursor-not-allowed disabled:opacity-40`}
           >
             ›
           </button>

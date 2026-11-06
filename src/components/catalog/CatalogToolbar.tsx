@@ -13,7 +13,7 @@ interface CatalogToolbarProps {
 }
 
 const selectClass =
-  "mt-1 min-h-11 w-full rounded-xl border-3 border-ink bg-white px-3 font-medium outline-none transition-shadow focus:shadow-brutal-sm";
+  "mt-1 min-h-11 w-full rounded-xl border-3 border-ink bg-paper px-3 font-medium outline-none transition-shadow focus:shadow-brutal-sm";
 
 export default function CatalogToolbar({
   category,

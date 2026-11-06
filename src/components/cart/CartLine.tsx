@@ -22,7 +22,7 @@ export default function CartLine({
   const lineTotal = unitPrice * item.quantity;
 
   return (
-    <li className="flex gap-4 rounded-2xl border-3 border-ink bg-white p-4 shadow-brutal">
+    <li className="flex gap-4 rounded-2xl border-3 border-ink bg-paper p-4 shadow-brutal">
       <img
         src={item.thumbnail}
         alt={item.title}

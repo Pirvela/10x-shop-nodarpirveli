@@ -10,5 +10,5 @@ export default function StockBadge({ stock }: StockBadgeProps) {
     return <span className={`${base} bg-red-300`}>Out of stock</span>;
   if (stock <= 5)
     return <span className={`${base} bg-orange-300`}>Only {stock} left!</span>;
-  return <span className={`${base} bg-white`}>In stock</span>;
+  return <span className={`${base} bg-paper`}>In stock</span>;
 }

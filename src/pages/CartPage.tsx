@@ -75,7 +75,7 @@ export default function CartPage() {
           </button>
         </div>
 
-        <aside className="rounded-2xl border-3 border-ink bg-white p-6 shadow-brutal">
+        <aside className="rounded-2xl border-3 border-ink bg-paper p-6 shadow-brutal">
           <h2 className="text-2xl font-bold">Summary</h2>
           {/* dl/dt/dd: სემანტიკური "სახელი → მნიშვნელობა" სია */}
           <dl className="mt-4 flex flex-col gap-2">

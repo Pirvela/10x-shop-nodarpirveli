@@ -42,7 +42,7 @@ export default function ToastProvider({ children }: ToastProviderProps) {
         {toast && (
           <p
             key={toast.id}
-            className="rounded-xl border-3 border-ink bg-white px-5 py-3 font-bold shadow-brutal"
+            className="rounded-xl border-3 border-ink bg-paper px-5 py-3 font-bold shadow-brutal"
           >
             {toast.message}
           </p>

@@ -136,7 +136,7 @@ export default function CatalogPage() {
             {/* ფილტრები მხოლოდ URL-შია, ამიტომ "/" ყველაფერს ასუფთავებს */}
             <Link
               to="/"
-              className="mt-4 inline-flex min-h-11 items-center rounded-xl border-3 border-ink bg-white px-5 font-bold shadow-brutal-sm transition-all hover:bg-sun active:translate-x-0.5 active:translate-y-0.5 active:shadow-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-ink"
+              className="mt-4 inline-flex min-h-11 items-center rounded-xl border-3 border-ink bg-paper px-5 font-bold shadow-brutal-sm transition-all hover:bg-sun active:translate-x-0.5 active:translate-y-0.5 active:shadow-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-ink"
             >
               Clear filters
             </Link>

@@ -1,5 +1,6 @@
 import { Link, NavLink, useNavigate } from "react-router";
 import { useAuth } from "../../context/authContext";
+import { useTheme } from "../../hooks/useTheme";
 import Container from "../ui/Container";
 import { useCart } from "../../context/cartContext";
 
@@ -14,6 +15,7 @@ function navLinkClass({ isActive }: { isActive: boolean }): string {
 export default function Header() {
   const { totalCount } = useCart();
   const { user, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
 
   function handleLogout() {
@@ -21,7 +23,7 @@ export default function Header() {
     navigate("/"); // PRD P0.3: Logout → კატალოგი
   }
   return (
-    <header className="border-b-4 border-ink bg-white">
+    <header className="border-b-4 border-ink bg-paper">
       <Container>
         {/* flex-wrap: ვიწრო ეკრანზე ბმულები მეორე რიგში გადადის, ჰორიზონტალური scroll არ ჩნდება */}
         <div className="flex flex-wrap items-center justify-between gap-2 py-3">
@@ -51,7 +53,7 @@ export default function Header() {
                 <button
                   type="button"
                   onClick={handleLogout}
-                  className="min-h-11 rounded-lg border-2 border-ink bg-white px-4 text-sm font-bold shadow-brutal-sm transition-all hover:bg-sun active:translate-x-0.5 active:translate-y-0.5 active:shadow-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-ink"
+                  className="min-h-11 rounded-lg border-2 border-ink bg-paper px-4 text-sm font-bold shadow-brutal-sm transition-all hover:bg-sun active:translate-x-0.5 active:translate-y-0.5 active:shadow-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-ink"
                 >
                   Log out
                 </button>
@@ -61,6 +63,18 @@ export default function Header() {
                 Log in
               </NavLink>
             )}
+            <button
+              type="button"
+              onClick={toggleTheme}
+              aria-label={
+                theme === "dark"
+                  ? "Switch to light theme"
+                  : "Switch to dark theme"
+              }
+              className="ml-1 inline-flex size-11 items-center justify-center rounded-lg border-2 border-ink bg-paper text-xl shadow-brutal-sm transition-all hover:bg-sun active:translate-x-0.5 active:translate-y-0.5 active:shadow-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-ink dark:bg-punch dark:text-neutral-950"
+            >
+              {theme === "dark" ? "☀" : "☾"}
+            </button>
           </nav>
         </div>
       </Container>

@@ -39,7 +39,7 @@ export default function CheckoutPage() {
           <p className="mt-2 text-lg">Your order has been placed.</p>
         </div>
 
-        <div className="mt-8 rounded-2xl border-3 border-ink bg-white p-6 shadow-brutal">
+        <div className="mt-8 rounded-2xl border-3 border-ink bg-paper p-6 shadow-brutal">
           <h2 className="text-2xl font-bold">Order summary</h2>
           <p className="mt-3">
             Shipping to{" "}
@@ -122,7 +122,7 @@ export default function CheckoutPage() {
         <form
           onSubmit={handleSubmit}
           noValidate
-          className="flex flex-col gap-5 rounded-2xl border-3 border-ink bg-white p-6 shadow-brutal sm:p-8"
+          className="flex flex-col gap-5 rounded-2xl border-3 border-ink bg-paper p-6 shadow-brutal sm:p-8"
         >
           <h2 className="text-2xl font-bold">Shipping details</h2>
           <TextField
@@ -168,7 +168,7 @@ export default function CheckoutPage() {
           </button>
         </form>
 
-        <aside className="rounded-2xl border-3 border-ink bg-white p-6 shadow-brutal">
+        <aside className="rounded-2xl border-3 border-ink bg-paper p-6 shadow-brutal">
           <h2 className="text-2xl font-bold">Order summary</h2>
           <ul className="mt-4 flex flex-col gap-3">
             {items.map((item) => (

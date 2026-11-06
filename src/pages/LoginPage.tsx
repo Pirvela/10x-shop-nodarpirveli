@@ -55,7 +55,7 @@ export default function LoginPage() {
         ← Back to catalog
       </Link>
 
-      <div className="mt-6 rounded-2xl border-3 border-ink bg-white p-6 shadow-brutal sm:p-8">
+      <div className="mt-6 rounded-2xl border-3 border-ink bg-paper p-6 shadow-brutal sm:p-8">
         <h1 className="text-4xl font-bold">Log in</h1>
         {redirectTo === "/checkout" && (
           <p className="mt-2">Log in to continue to checkout.</p>
